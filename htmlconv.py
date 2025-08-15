@@ -5,11 +5,13 @@
 
 import markdown
 
-def convert_markdown_to_html(file_path):
-    """Convert a Markdown file to HTML."""
+def convert_markdown_to_html(file_path, template=None):
     with open(file_path, 'r') as file:
         text = file.read()
         html = markdown.markdown(text)
+        if template:
+            with open(template, 'r') as tpl:
+                html = tpl.read().replace('{{content}}', html)
         output_path = file_path.replace('.md', '.html')
         with open(output_path, 'w') as output_file:
             output_file.write(html)
